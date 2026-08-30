@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>แบบทดสอบกลางภาคเรียน - โรงเรียนเศรษฐบุตรบำเพ็ญ</title>
+
+    <!-- โหลด Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- โหลด SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- โหลดฟอนต์ราชการ TH Sarabun New -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Sarabun", sans-serif;
+        background-color: #e5e7eb; /* สีพื้นหลังหลัก */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      /* ซ่อนลูกศรใน input ตัวเลข */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      :fullscreen {
+        background-color: #f3f4f6;
+        overflow-y: auto;
+      }
+      :-webkit-full-screen {
+        background-color: #f3f4f6;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body class="text-gray-900 antialiased">
+    <form id="examForm" class="w-full">
+      <!-- ========================================== -->
+      <!-- ส่วนที่ 1: หน้าต้อนรับแบบ Pop-up Card (Welcome Page) -->
+      <!-- ========================================== -->
+      <div
+        id="welcome-page"
+        class="min-h-screen flex items-center justify-center p-4 sm:p-8 bg-gradient-to-br from-green-900 to-green-700"
+      >
+        <div
+          class="bg-white max-w-2xl w-full rounded-2xl shadow-2xl overflow-hidden transform transition-all"
+        >
+          <!-- ส่วนหัว (Header) -->
+          <div
+            class="bg-gradient-to-b from-green-50 to-white p-6 sm:p-8 text-center border-b border-gray-100 relative"
+          >
+            <img
+              src="Logo_shcool.png"
+              alt="โลโก้โรงเรียนเศรษฐบุตรบำเพ็ญ"
+              class="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 object-contain drop-shadow-md"
+              onerror="this.style.display = 'none'"
+            />
+            <h1 class="text-2xl sm:text-3xl font-bold text-green-800 mb-2">
+              โรงเรียนเศรษฐบุตรบำเพ็ญ
+            </h1>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-1">
+              แบบทดสอบวัดผลสัมฤทธิ์ทางการเรียน<br />รายวิชา การถ่ายภาพ (ว30287)
+            </h2>
+            <p class="text-lg text-gray-600 mt-2">
+              กลุ่มสาระการเรียนรู้วิทยาศาสตร์และเทคโนโลยี
+            </p>
+            <p class="text-lg text-gray-600">สอนโดย นายเจษฎา แสนสุภา</p>
+          </div>
+
+          <!-- ส่วนกรอกข้อมูลผู้เข้าสอบ (Form) -->
+          <div class="p-6 sm:p-8 bg-white">
+            <div
+              class="bg-green-50 p-5 rounded-xl border border-green-100 mb-6"
+            >
+              <h3
+                class="text-lg font-bold text-green-800 mb-4 flex items-center"
+              >
+                <svg
+                  class="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                กรอกข้อมูลผู้เข้าสอบ
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- แถวที่ 1: ชื่อและเลขประจำตัว -->
+                <div class="sm:col-span-2">
+                  <label class="block text-gray-700 font-bold mb-1"
+                    >ชื่อ - สกุล</label
+                  >
+                  <input
+                    type="text"
+                    name="student_name"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                    placeholder="เช่น นาย/นางสาว..."
+                    required
+                  />
+                </div>
+
+                <!-- แถวที่ 2: เลขประจำตัว, ชั้น, เลขที่ -->
+                <div>
+                  <label class="block text-gray-700 font-bold mb-1"
+                    >เลขประจำตัว</label
+                  >
+                  <input
+                    type="number"
+                    name="student_id"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                    placeholder="เช่น 12345"
+                    required
+                  />
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-gray-700 font-bold mb-1"
+                      >ระดับชั้น</label
+                    >
+                    <div class="flex">
+                      <span
+                        class="inline-flex items-center px-3 text-gray-600 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg font-bold"
+                      >
+                        ม.6 /
+                      </span>
+                      <input
+                        type="number"
+                        name="room_number"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                        placeholder="ห้อง"
+                        required
+                      />
+                      <!-- ซ่อนค่า ม.6 ไว้ เพื่อให้ระบบนำไปรวมกับห้องได้ -->
+                      <input type="hidden" name="room_level" value="6" />
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-gray-700 font-bold mb-1"
+                      >เลขที่</label
+                    >
+                    <input
+                      type="number"
+                      name="student_no"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none transition"
+                      placeholder="เลขที่"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- คำอธิบายและคำชี้แจง -->
+            <div
+              class="border-l-4 border-red-500 bg-red-50 p-4 rounded-r-lg text-base text-gray-700 mb-6"
+            >
+              <p class="font-bold text-red-700 mb-2">คำอธิบายและกฎระเบียบ:</p>
+              <ul class="list-disc list-inside space-y-1 mb-2">
+                <li>ข้อสอบปรนัย 20 ข้อ (10 คะแนน) / อัตนัย 2 ข้อ (10 คะแนน)</li>
+                <li>เวลาในการทำข้อสอบ <strong>1 ชั่วโมง 30 นาที</strong></li>
+                <li>ไม่อนุญาตให้ส่งข้อสอบก่อน 30 นาทีแรก</li>
+              </ul>
+              <p
+                class="font-semibold text-red-700 mt-3 text-sm sm:text-base text-justify"
+              >
+                ⚠️ ห้ามสลับแอปพลิเคชันหรือเปิดหน้าต่างอื่น
+                หากตรวจพบการละเมิดเกิน 3 ครั้ง
+                ระบบจะส่งข้อสอบและหมดสิทธิ์สอบทันที
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onclick="startExam()"
+              class="w-full bg-green-700 text-white font-bold text-xl py-3 rounded-lg shadow-lg hover:bg-green-800 transform hover:-translate-y-0.5 transition duration-200"
+            >
+              เข้าสู่หน้าทำข้อสอบ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- ส่วนที่ 2: หน้าทำข้อสอบ (Exam Page) - ซ่อนไว้ก่อน -->
+      <!-- ========================================== -->
+      <div
+        id="exam-page"
+        class="hidden max-w-4xl mx-auto mt-4 sm:mt-8 bg-white shadow-xl border border-gray-300 pb-10"
+      >
+        <!-- แถบเวลา (Sticky Top) -->
+        <div
+          class="sticky top-0 bg-green-800 text-white px-4 sm:px-6 py-3 flex justify-between items-center z-50 shadow-md"
+        >
+          <div class="text-base sm:text-lg font-bold truncate">
+            วิชาการถ่ายภาพ (ว30287)
+          </div>
+          <div
+            class="text-lg sm:text-xl font-bold flex items-center whitespace-nowrap"
+          >
+            เวลาคงเหลือ:
+            <span
+              id="timer-display"
+              class="ml-2 text-yellow-300 font-mono tracking-wider"
+              >01:30:00</span
+            >
+          </div>
+        </div>
+
+        <div class="p-4 sm:p-12 text-lg">
+          <!-- ตอนที่ 1: ปรนัย -->
+          <div id="part1-container" class="mb-10">
+            <h3
+              class="font-bold text-lg sm:text-xl mb-4 underline text-green-900"
+            >
+              ตอนที่ 1: จงเลือกคำตอบที่ถูกต้องที่สุดเพียงข้อเดียว (20 ข้อ 10
+              คะแนน)
+            </h3>
+            <!-- JS จะสร้างข้อสอบปรนัยตรงนี้ -->
+          </div>
+
+          <!-- ตอนที่ 2: อัตนัย -->
+          <div id="part2-container" class="mb-10">
+            <h3
+              class="font-bold text-lg sm:text-xl mb-4 underline text-green-900"
+            >
+              ตอนที่ 2: อัตนัยวิเคราะห์ภาพ (2 ข้อ 10 คะแนน)
+            </h3>
+
+            <!-- อัตนัย ข้อ 1 -->
+            <div
+              class="mb-8 border border-gray-400 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-sm"
+            >
+              <p class="font-semibold mb-4 text-lg sm:text-xl">
+                21. จากภาพดังกล่าว ให้นักเรียนวิเคราะห์การจัดองค์ประกอบภาพ
+                ว่าใช้กฎการถ่ายภาพแบบใด และส่งผลต่อความรู้สึกของภาพอย่างไร? (5
+                คะแนน)
+              </p>
+              <div class="mb-4 text-center">
+                <img
+                  src="p-1.png"
+                  alt="ตัวอย่างการจัดองค์ประกอบภาพ"
+                  class="mx-auto max-h-48 sm:max-h-64 border border-gray-400 rounded"
+                />
+              </div>
+              <p class="font-semibold mb-2 text-base sm:text-lg">
+                กฎและทฤษฎีองค์ประกอบภาพของภาพนี้มีอะไรบ้าง
+                และส่งผลต่อความรู้สึกของภาพอย่างไร (3 คะแนน)
+              </p>
+              <textarea
+                name="essay1"
+                rows="5"
+                class="w-full p-3 border border-gray-400 rounded focus:border-green-600 focus:ring-1 focus:ring-green-600 outline-none text-base sm:text-lg"
+                placeholder="เขียนคำตอบวิเคราะห์..."
+                required
+              ></textarea>
+              <p class="font-semibold mb-2 text-base sm:text-lg">
+                องค์ประกอบภาพที่ยังขาดหรือสามารถปรับปรุงได้
+                เพื่อให้ภาพสมบูรณ์ยิ่งขึ้น (2 คะแนน)
+              </p>
+              <textarea
+                name="essay1"
+                rows="5"
+                class="w-full p-3 border border-gray-400 rounded focus:border-green-600 focus:ring-1 focus:ring-green-600 outline-none text-base sm:text-lg"
+                placeholder="เขียนคำตอบวิเคราะห์..."
+                required
+              ></textarea>
+            </div>
+
+            <!-- อัตนัย ข้อ 2 -->
+            <div
+              class="mb-8 border border-gray-400 p-4 sm:p-6 bg-gray-50 rounded-lg shadow-sm"
+            >
+              <p class="font-semibold mb-4 text-lg sm:text-xl">
+                22. ให้นักเรียนวิเคราะห์ภาพถ่ายจากภาพตัวอย่าง (5 คะแนน)
+              </p>
+              <div class="mb-4 text-center">
+                <img
+                  src="p-2.png"
+                  alt="ตัวอย่างทิศทางแสง"
+                  class="mx-auto max-h-48 sm:max-h-64 border border-gray-400 rounded"
+                />
+              </div>
+              <p class="font-semibold mb-2 text-base sm:text-lg">
+                1. ทิศทางของแสงในภาพนี้ว่าเป็นแสงลักษณะใด
+                และภาพนี้ใช้กฎการถ่ายภาพแบบใด? (3 คะแนน)
+              </p>
+              <textarea
+                name="essay2"
+                rows="5"
+                class="w-full p-3 border border-gray-400 rounded focus:border-green-600 focus:ring-1 focus:ring-green-600 outline-none text-base sm:text-lg"
+                placeholder="เขียนคำตอบวิเคราะห์..."
+                required
+              ></textarea>
+              <p class="font-semibold mb-2 text-base sm:text-lg">
+                2.
+                จากภาพดังกล่าวผู้ถ่ายต้องการสื่ออารมณ์และเล่าเรื่องของภาพอย่างไร
+                ตามแนวภาพ Starytelling (2 คะแนน)
+              </p>
+              <textarea
+                name="essay2"
+                rows="5"
+                class="w-full p-3 border border-gray-400 rounded focus:border-green-600 focus:ring-1 focus:ring-green-600 outline-none text-base sm:text-lg"
+                placeholder="เขียนคำตอบวิเคราะห์..."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- ปุ่มส่งข้อสอบ -->
+          <div class="text-center pt-6 border-t border-gray-300">
+            <p
+              id="submit-lock-text"
+              class="text-red-600 font-bold mb-3 text-base sm:text-lg"
+            >
+              *ระบบจะอนุญาตให้ส่งข้อสอบได้เมื่อผ่านไปแล้ว 30 นาที
+            </p>
+            <button
+              type="button"
+              id="submit-btn"
+              onclick="confirmSubmit()"
+              class="w-full sm:w-auto bg-gray-400 text-white font-bold text-2xl py-3 px-12 rounded cursor-not-allowed transition"
+              disabled
+            >
+              ส่งข้อสอบ
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      // ==========================================
+      // ตั้งค่าตัวแปรระบบ
+      // ==========================================
+      let isExamActive = false;
+      let totalSeconds = 90 * 60;
+      const lockSeconds = 2 * 60;
+      let timerInterval;
+      let cheatCount = 0;
+      const MAX_CHEAT = 3;
+      let lastCheatTime = 0;
+
+      // นำ URL ที่ได้จาก Google Apps Script มาวางตรงนี้
+      const GAS_URL = "https://script.google.com/macros/s/AKfycbz9Sqbs65guSXoHeVOnSuhz_aTBFcHtjtVRmCmuGjmgubDmS-rzTW1N8H-DQD1vmO6Kkg/exec";
+
+      // ==========================================
+      // 1. ข้อมูลโจทย์และตัวเลือกทั้ง 20 ข้อ
+      // ==========================================
+      const questionsData = [
+        {
+          q: "ข้อใดคือความหมายและบทบาทของ แสง ที่ถูกต้องที่สุด?",
+          a: " แสงคือองค์ประกอบที่ทำให้กล้องมีราคาแพงขึ้น",
+          b: " แสงคือเครื่องมือที่ทำให้ไฟล์ภาพมีขนาดใหญ่ขึ้น",
+          c: " แสงคือหัวใจของการถ่ายภาพ ส่งผลต่อความสว่าง มิติ อารมณ์ และความโดดเด่น",
+          d: " แสงคือสิ่งที่ใช้ทดแทนมุมกล้องและเลนส์ได้ทั้งหมด",
+        },
+        {
+          q: 'ข้อใดอธิบายข้อดีและข้อจำกัดของ "แสงธรรมชาติ (Natural Light)" และ "แสงสตูดิโอ (Studio Light)" ได้อย่างถูกต้องตรงตามบทเรียน?',
+          a: " แสงธรรมชาติมีค่าใช้จ่ายสูงแต่ควบคุมทิศทางได้ง่ายกว่าแสงสตูดิโอ",
+          b: " แสงธรรมชาติฟรีและสีเป็นธรรมชาติแต่ควบคุมยาก ส่วนแสงสตูดิโอมีค่าใช้จ่ายแต่สามารถควบคุมได้และถ่ายได้ทุกเวลา",
+          c: " แสงธรรมชาติเหมาะกับการถ่ายภาพบุคคลในอาคาร ส่วนแสงสตูดิโอเหมาะกับการถ่ายภาพทิวทัศน์นอกอาคารเท่านั้น",
+          d: " ไม่มีข้อแตกต่างกันในแง่ของสี อุณหภูมิแสง และงบประมาณ",
+        },
+        {
+          q: 'ในการจัดทิศทางแสงสำหรับการถ่ายภาพ หากช่างภาพต้องการให้"ภาพสว่างทั่วและเห็นรายละเอียดชัดเจนที่สุด" ควรเลือกใช้ทิศทางแสงแบบใด?',
+          a: " แสงด้านหน้า (Front Light)",
+          b: " แสงด้านข้าง (Side Light)",
+          c: " แสงย้อน (Back Light)",
+          d: " แสงเฉียงจากมุมล่าง",
+        },
+        {
+          q: "ค่า ISO สูง ส่งผลอย่างไรต่อภาพถ่าย?",
+          a: " ภาพมืดลง",
+          b: " ภาพเบลอ",
+          c: " ภาพมีความคมชัดสูง",
+          d: " ภาพสว่างขึ้นแต่มีจุดรบกวน (Noise)",
+        },
+        {
+          q: " เงาประเภทใดที่มีลักษณะ เงาคมชัด ขอบชัดเจน ให้ความรู้สึกคมชัด ชัดเจน และแข็งแรง?",
+          a: " Soft Shadow",
+          b: " Hard Shadow",
+          c: " Pattern Shadow",
+          d: " Diffused Shadow",
+        },
+        {
+          q: "รูรับแสง (Aperture) ของเลนส์กล้อง ทำหน้าที่สำคัญอย่างไรในการควบคุมคุณภาพของภาพถ่าย?",
+          a: " ควบคุมการโฟกัสระยะทางใกล้-ไกลของเลนส์ให้คมชัดอัตโนมัติ",
+          b: ' ควบคุมปริมาณแสงที่ผ่านเข้าสู่เซนเซอร์กล้อง และส่งผลโดยตรงต่อการควบคุม "ระยะชัด (Depth of Field)" ',
+          c: " ควบคุมความเร็วในการสั่นไหวของตัวกล้องขณะถ่ายภาพ",
+          d: " ปรับระดับสีและสมดุลสีขาวของภาพถ่ายให้อมส้มหรืออมน้ำเงิน",
+        },
+        {
+          q: "เงาที่เกิดจากลวดลายหรือสิ่งกีดขวาง เช่น หน้าต่าง ม่าน ใบไม้ หรือระแนงไม้ เพื่อวัตถุประสงค์ในการสร้างมิติ ความน่าสนใจ และความรู้สึกมีเรื่องราว เรียกว่าเงารูปแบบใด?",
+          a: " Hard Shadow",
+          b: " Soft Shadow",
+          c: " Pattern Shadow",
+          d: " Background Shadow",
+        },
+        {
+          q: " ข้อใดอธิบายแก่นแท้และลักษณะสำคัญที่สุดของ การถ่ายภาพแนวสตรีท (Street Photography) ได้ถูกต้อง?",
+          a: " การจัดฉากและนัดหมายตัวแบบเพื่อถ่ายภาพแฟชั่นกลางถนนเยาวราช",
+          b: " การบันทึกภาพชีวิตประจำวันและเหตุการณ์ของผู้คนในที่สาธารณะ โดยไม่จัดฉากหรือเตรียมการล่วงหน้า",
+          c: " การใช้อุปกรณ์ตกแต่งแสงและไฟสตูดิโอขนาดใหญ่กลางถนนเพื่อถ่ายภาพสถาปัตยกรรม",
+          d: " การถ่ายภาพเซลฟี่ส่วนตัวขณะเดินทางท่องเที่ยวในสถานที่ท่องเที่ยวธรรมชาติ",
+        },
+        {
+          q: "ในการใช้กฎสามส่วน เส้นสมมติในแนวตั้งและแนวนอนจะตัดกันทั้งหมด 4 จุด ซึ่งเรียกว่า จุดตัดเก้าช่อง ช่างภาพควรใช้จุดตัดเหล่านั้นอย่างไรเพื่อเพิ่มความโดดเด่นให้กับตัวแบบหลัก?",
+          a: " หลีกเลี่ยงไม่ให้มีวัตถุใด ๆ เข้าใกล้จุดตัดเหล่านี้เลย",
+          b: " จัดวางส่วนสำคัญที่สุดของตัวแบบหลัก (เช่น ดวงตาของคน หรือตัวละครสำคัญ) ไว้ใกล้กับจุดตัดจุดใดจุดหนึ่ง",
+          c: " จัดวางตัวแบบหลักให้อยู่ตรงกลางของกรอบสี่เหลี่ยมช่องกลางพอดี",
+          d: " วางตัวแบบกระจายไปให้ครบทั้ง 4 จุดตัดเพื่อความสว่างเท่ากัน",
+        },
+        {
+          q: "ข้อใดอธิบายการนำเทคนิค เส้นนำสายตา (Leading Lines) มาประยุกต์ใช้ในการถ่ายภาพแนวสตรีทได้อย่างถูกต้องตรงตามบทเรียน?",
+          a: " การใช้องค์ประกอบในสภาพแวดล้อมจริง เช่น ขอบทางเท้า เส้นถนน รางรถไฟ หรือเงาขอบตึก นำสายตาผู้ชมพุ่งตรงไปยังตัวแบบหลัก",
+          b: " การระบายสีแดงลงบนทางเท้าเพื่อชี้นำให้คนเดินไปตามเส้นทาง  ",
+          c: " การจับตัวแบบยืนเข้าแถวเรียงหนึ่งเป็นเส้นตรงพุ่งเข้าหาหน้ากล้อง",
+          d: " การวาดเส้นลูกศรเรืองแสงลงในภาพถ่ายโดยใช้แอปพลิเคชันหลังถ่ายเสร็จ",
+        },
+        {
+          q: "ปรากฏการณ์ ระยะชัดน้อย (Shallow Depth of Field) หรือที่เรียกกันว่า หน้าชัดหลังเบลอ ทำหน้าที่หลักอย่างไรในภาพถ่าย?",
+          a: " ช่วยทำให้ภาพทิวทัศน์มองเห็นรายละเอียดได้กว้างและไกลที่สุด",
+          b: " ช่วยป้องกันไม่ให้กล้องเกิดการสั่นไหวขณะกดชัตเตอร์",
+          c: " ช่วยปรับแก้สีของภาพถ่ายให้มีความสมดุลและสว่างเท่ากัน",
+          d: " ช่วยให้ผู้ชมโฟกัสความสนใจไปยังสิ่งหรือตัวแบบที่เราต้องการสื่อสาร โดยลดสิ่งรบกวนในฉากหลัง",
+        },
+        {
+          q: "หากต้องการถ่ายภาพหน้าชัดหลังเบลอ ต้องตั้งค่าอะไร?",
+          a: " ISO",
+          b: " ความเร็วชัตเตอร์ (Shutter Speed)",
+          d: " รูรับแสง (Aperture)",
+          c: " ระยะโฟกัส (Focus Distance) ",
+        },
+        {
+          q: "การจัดองค์ประกอบภาพในข้อใดที่มีความหมายตรงกับการจัดวางให้มีระยะ หน้า-กลาง-หลัง เพื่อสร้างมิติความลึกให้กับภาพถ่ายแนวสตรีท?",
+          a: " Layering (การสร้างระยะ)",
+          b: " Leading Lines (เส้นนำสายตา)",
+          c: " Framing (การกรอบภาพ)",
+          d: " Rule of Thirds (กฎสามส่วน ) "
+
+        },
+        {
+          q: "ในการถ่ายภาพ พาโนรามา (Panorama) ตามที่บทเรียนกำหนด ข้อใดระบุสิ่งที่ควรระวังและหลีกเลี่ยงเพื่อไม่ให้เกิดความผิดพลาดในการประมวลผลต่อภาพได้ถูกต้อง?",
+          a: " ระวังเส้นขอบฟ้าเอียง และแสงสว่างที่ไม่สม่ำเสมอในแต่ละช็อต",
+          b: " หลีกเลี่ยงวัตถุที่เคลื่อนไหวในเฟรม เช่น คน รถยนต์ หรือเรือ",
+          c: " ระวังรอยต่อที่ซ้อนทับกันน้อยเกินไป (ควรมีระยะซ้อนทับประมาณ 20-30%) และระวังการบิดเบี้ยวของภาพ",
+          d: " ถูกทุกข้อที่กล่าวมา",
+        },
+        {
+          q: "โหมด M (Manual) บนกล้องหมายถึงอะไร?",
+          a: " กล้องตั้งค่าอัตโนมัติทั้งหมด",
+          b: " ผู้ถ่ายตั้งค่ารูรับแสงและชัตเตอร์สปีดเอง",
+          c: " ปรับเฉพาะ ISO อัตโนมัติ",
+          d: " ใช้แฟลชเสมอ",
+        },
+        {
+          q: "ขั้นตอนการถ่ายภาพ เงาสะท้อน (Reflection) เพื่อสร้างความสมมาตรและความสมบูรณ์แบบให้กับภาพถ่าย ช่างภาพควรจัดการกับ เส้นแบ่งระหว่างภาพจริงและภาพสะท้อน อย่างไร?",
+          a: " ต้องจำกัดไว้ที่ตำแหน่งก้นภาพด้านล่างเท่านั้น",
+          b: " ลองจัดวางให้อยู่กึ่งกลาง หรือเว้นพื้นที่ตามความต้องการและการออกแบบ",
+          c: " ต้องพยายามลบเส้นแบ่งด้วยโปรแกรมแต่งภาพทีหลังเสมอ",
+          d: " จัดให้เอียงในแนวตั้ง 90 องศาเพื่อตัดทอนรายละเอียด",
+        },
+        {
+          q: "หากต้องการถ่ายภาพรถจักรยานยนต์ที่กำลังวิ่งด้วยความเร็วสูงบนท้องถนนให้ภาพออกมาดูนิ่งสนิท หยุดความเคลื่อนไหว (Freeze Action) ได้อย่างคมชัด ไม่เบลอ ควรตั้งค่าความเร็วชัตเตอร์ (Speed Shutter) อย่างไร?",
+          a: " ตั้งความเร็วชัตเตอร์ต่ำมาก (เช่น 1/2 วินาที) และใช้ขาตั้งกล้องช่วย",
+          b: " ตั้งความเร็วชัตเตอร์สูงมาก (เช่น 1/1000 วินาที) เพื่อจับภาพในเสี้ยววินาที",
+          c: " ใช้ความเร็วชัตเตอร์ระดับปกติ 1/30 วินาที พร้อมเปิดแฟลชสตูดิโอสาดจากด้านหน้า",
+          d: " ตั้งกล้องในระบบการบันทึกภาพต่อเนื่องยาวนาน 60 วินาทีขึ้นไป",
+        },
+        {
+          q: "ถ้าภาพถ่ายออกมามืดเกินไป (Under Exposure) ควรแก้ไขอย่างไร?",
+          a: " ลด ISO",
+          b: " เพิ่ม Shutter Speed",
+          c: " เปิดรูรับแสงให้กว้างขึ้น",
+          d: " ปิดแฟลช",
+        },
+        {
+          q: "กฎแห่งความสมดุล (Balance) ในการถ่ายภาพคืออะไร?",
+          a: " การทำให้น้ำหนักซ้ายและขวาของภาพดูเท่ากัน",
+          b: " การปรับให้กล้องขนานกับพื้น",
+          c: " การใช้แฟลชสองตัว",
+          d: " การปรับสีให้เท่ากัน",
+        },
+        {
+          q: "เมื่อต้องการวิเคราะห์ภาพถ่ายเล่าเรื่องหลังถ่ายทำเสร็จเพื่อตรวจสอบคุณภาพการสื่อสาร ช่างภาพควรฝึกฝนด้วยการใช้คำถาม 5 คำถามในการตรวจสอบภาพตามข้อใดเป็นลำดับ?",
+          a: " ภาพนี้ใช้องค์ประกอบอะไร? | ใช้แสงอย่างไร? | ใช้สีอย่างไร? | ถ่ายเวลาเท่าไหร่? | กล้องยี่ห้ออะไร?",
+          b: " มองอะไรเป็นอันดับแรก? | ช่างภาพใช้องค์ประกอบอะไร? | ใช้แสงอย่างไร? | ใช้สีอย่างไร? | ภาพกำลังเล่าเรื่องอะไร? ",
+          c: " ใครคือช่างภาพ? | ถ่ายรูปนี้นานไหม? | ใครเป็นสปอนเซอร์? | ภาพนี้โพสต์ลงเว็บใด? | ยายชื่ออะไร?",
+          d: " สว่างพอไหม? | คมชัดไหม? | ใช้เงินจัดฉากกี่บาท? | มีคนไลก์กี่คน? | ภาพยาวกี่พิกเซล?",
+        },
+      ];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const part1Container = document.getElementById("part1-container");
+        let mcqHTML = "";
+
+        questionsData.forEach((item, index) => {
+          let qNumber = index + 1;
+          mcqHTML += `
+                    <div class="mb-8 p-4 sm:p-6 bg-white border border-gray-300 rounded-lg shadow-sm">
+                        <p class="font-semibold text-lg sm:text-xl mb-4">${qNumber}. ${item.q}</p>
+                        <div class="space-y-3">
+                            <label class="block w-full p-3 border border-gray-200 rounded hover:bg-green-50 cursor-pointer transition">
+                                <input type="radio" name="q${qNumber}" value="ก" class="mr-3 w-4 h-4 text-green-600" required>  ${item.a}
+                            </label>
+                            <label class="block w-full p-3 border border-gray-200 rounded hover:bg-green-50 cursor-pointer transition">
+                                <input type="radio" name="q${qNumber}" value="ข" class="mr-3 w-4 h-4 text-green-600">  ${item.b}
+                            </label>
+                            <label class="block w-full p-3 border border-gray-200 rounded hover:bg-green-50 cursor-pointer transition">
+                                <input type="radio" name="q${qNumber}" value="ค" class="mr-3 w-4 h-4 text-green-600">  ${item.c}
+                            </label>
+                            <label class="block w-full p-3 border border-gray-200 rounded hover:bg-green-50 cursor-pointer transition">
+                                <input type="radio" name="q${qNumber}" value="ง" class="mr-3 w-4 h-4 text-green-600">  ${item.d}
+                            </label>
+                        </div>
+                    </div>
+                `;
+        });
+        part1Container.innerHTML += mcqHTML;
+      });
+
+      // ==========================================
+      // 2. ฟังก์ชันเริ่มทำข้อสอบ
+      // ==========================================
+      function startExam() {
+        const studentInputs = document.querySelectorAll(
+          "#welcome-page input[required]",
+        );
+        for (let input of studentInputs) {
+          if (!input.checkValidity()) {
+            input.reportValidity();
+            return;
+          }
+        }
+
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem
+            .requestFullscreen()
+            .catch((err) => console.log("Fullscreen Error:", err));
+        } else if (elem.webkitRequestFullscreen) {
+          elem.webkitRequestFullscreen();
+        }
+
+        // ซ่อนการ์ดหน้าแรก แสดงข้อสอบ
+        document.getElementById("welcome-page").classList.add("hidden");
+        document.getElementById("exam-page").classList.remove("hidden");
+
+        // เปลี่ยนสีพื้นหลัง body เป็นสีเทาอ่อนสำหรับหน้าข้อสอบ
+        document.body.style.backgroundColor = "#e5e7eb";
+
+        isExamActive = true;
+        timerInterval = setInterval(updateTimer, 1000);
+
+        Swal.fire({
+          icon: "info",
+          title: "เริ่มทำข้อสอบ!",
+          text: "ระบบได้เริ่มจับเวลา และเปิดโหมดป้องกันการทุจริตแล้ว",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      }
+
+      // ==========================================
+      // 3. ระบบจับเวลา
+      // ==========================================
+      function updateTimer() {
+        if (totalSeconds <= 0) {
+          clearInterval(timerInterval);
+          Swal.fire(
+            "หมดเวลา!",
+            "ระบบกำลังรวบรวมคำตอบและส่งอัตโนมัติ",
+            "warning",
+          ).then(() => {
+            processSubmit();
+          });
+          return;
+        }
+
+        totalSeconds--;
+
+        if (totalSeconds <= 90 * 60 - lockSeconds) {
+          const btn = document.getElementById("submit-btn");
+          if (btn) {
+            btn.disabled = false;
+            btn.classList.remove("bg-gray-400", "cursor-not-allowed");
+            btn.classList.add(
+              "bg-green-700",
+              "hover:bg-green-800",
+              "cursor-pointer",
+            );
+          }
+          const lockText = document.getElementById("submit-lock-text");
+          if (lockText) lockText.style.display = "none";
+        }
+
+        const h = Math.floor(totalSeconds / 3600)
+          .toString()
+          .padStart(2, "0");
+        const m = Math.floor((totalSeconds % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        const s = (totalSeconds % 60).toString().padStart(2, "0");
+        document.getElementById("timer-display").innerText = `${h}:${m}:${s}`;
+      }
+
+      // ==========================================
+      // 4. ระบบป้องกันทุจริต
+      // ==========================================
+      document.addEventListener("contextmenu", (event) =>
+        event.preventDefault(),
+      );
+      ["copy", "cut", "paste"].forEach((evt) =>
+        document.addEventListener(evt, (event) => event.preventDefault()),
+      );
+
+      function triggerCheatWarning() {
+        if (!isExamActive) return;
+
+        const now = Date.now();
+        if (now - lastCheatTime < 2000) return;
+        lastCheatTime = now;
+
+        cheatCount++;
+
+        if (cheatCount >= MAX_CHEAT) {
+          isExamActive = false;
+          clearInterval(timerInterval);
+          Swal.fire({
+            icon: "error",
+            title: "ทุจริตการสอบ!",
+            text: "คุณทำผิดกฎเกิน 3 ครั้ง ระบบหมดสิทธิ์สอบและกำลังส่งคำตอบอัตโนมัติ",
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(() => {
+            processSubmit();
+          });
+        } else {
+          Swal.fire({
+            icon: "warning",
+            title: "บันทึกความผิดปกติ!",
+            html: `<div class="text-lg">คุณออกจากหน้าจอข้อสอบ<br><b class="text-red-600 text-xl">ครั้งที่ ${cheatCount} / ${MAX_CHEAT}</b><br><br>หากครบ 3 ครั้ง ระบบจะส่งข้อสอบและตัดสิทธิ์ทันที</div>`,
+            confirmButtonColor: "#b91c1c",
+            confirmButtonText: "กลับไปทำข้อสอบ",
+          });
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") triggerCheatWarning();
+      });
+      window.addEventListener("blur", () => triggerCheatWarning());
+      document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement && isExamActive) triggerCheatWarning();
+      });
+
+      // ==========================================
+      // 5. ส่งข้อสอบ
+      // ==========================================
+      function confirmSubmit() {
+        const form = document.getElementById("examForm");
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        Swal.fire({
+          title: "ยืนยันการส่งข้อสอบ?",
+          text: "หากกดส่งแล้วจะไม่สามารถแก้ไขคำตอบได้อีก",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#166534",
+          cancelButtonColor: "#b91c1c",
+          confirmButtonText: "ส่งข้อสอบ",
+          cancelButtonText: "กลับไปทบทวน",
+        }).then((result) => {
+          if (result.isConfirmed) processSubmit();
+        });
+      }
+
+      function processSubmit() {
+        isExamActive = false;
+        clearInterval(timerInterval);
+        window.onblur = null;
+        document.onvisibilitychange = null;
+
+        Swal.fire({
+          title: "ระบบกำลังบันทึกคำตอบ...",
+          html: "กรุณารอสักครู่ ห้ามปิดหน้าต่างนี้เด็ดขาด",
+          allowOutsideClick: false,
+          didOpen: () => Swal.showLoading(),
+        });
+
+        const form = document.getElementById("examForm");
+        const formData = new FormData(form);
+        const dataObj = Object.fromEntries(formData.entries());
+
+        fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(dataObj),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.status === "success") {
+              Swal.fire({
+                icon: "success",
+                title: "ส่งข้อสอบเสร็จสมบูรณ์",
+                text: "บันทึกคำตอบลงระบบเรียบร้อยแล้ว",
+                showConfirmButton: false,
+                allowOutsideClick: false,
+              });
+
+              document.body.innerHTML = `
+                        <div class="flex items-center justify-center min-h-screen bg-green-50 p-4">
+                            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-lg text-center border-t-8 border-green-700 max-w-lg w-full">
+                                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">ส่งข้อสอบเรียบร้อย</h2>
+                                <p class="text-lg sm:text-xl text-gray-600">รหัสประจำตัว: ${dataObj.student_id}</p>
+                                <p class="text-lg sm:text-xl text-gray-600 mb-6">ชื่อ: ${dataObj.student_name}</p>
+                                <hr class="my-4">
+                                <p class="text-base sm:text-lg text-green-700 font-bold">สามารถปิดเบราว์เซอร์นี้ได้เลยครับ</p>
+                            </div>
+                        </div>`;
+            } else {
+              Swal.fire(
+                "เกิดข้อผิดพลาด!",
+                "ระบบขัดข้อง: " + result.message,
+                "error",
+              );
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "เครือข่ายมีปัญหา",
+              text: "ไม่สามารถติดต่อเซิร์ฟเวอร์ได้ กรุณาแคปหน้าจอนี้แจ้งครูผู้สอน",
+              confirmButtonText: "ลองส่งใหม่",
+            }).then(() => {
+              const btn = document.getElementById("submit-btn");
+              if (btn) btn.disabled = false;
+              isExamActive = true;
+            });
+          });
+      }
+    </script>
+  </body>
+</html>
