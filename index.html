@@ -357,7 +357,7 @@
       const lockSeconds = 10 * 60;
       let timerInterval;
       let cheatCount = 0;
-      const MAX_CHEAT = 6;
+      const MAX_CHEAT = 8;
       let lastCheatTime = 0;
 
       // นำ URL ที่ได้จาก Google Apps Script มาวางตรงนี้
@@ -649,7 +649,7 @@
           Swal.fire({
             icon: "error",
             title: "ทุจริตการสอบ!",
-            text: "คุณทำผิดกฎเกิน 3 ครั้ง ระบบหมดสิทธิ์สอบและกำลังส่งคำตอบอัตโนมัติ",
+            text: "คุณทำผิดกฎเกิน 8 ครั้ง ระบบหมดสิทธิ์สอบและกำลังส่งคำตอบอัตโนมัติ",
             allowOutsideClick: false,
             showConfirmButton: false,
             timer: 3000,
