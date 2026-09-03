@@ -354,7 +354,7 @@
       // ==========================================
       let isExamActive = false;
       let totalSeconds = 90 * 60;
-      const lockSeconds = 5 * 60;
+      const lockSeconds = 8 * 60;
       let timerInterval;
       let cheatCount = 0;
       const MAX_CHEAT = 10;
@@ -660,7 +660,7 @@
           Swal.fire({
             icon: "warning",
             title: "บันทึกความผิดปกติ!",
-            html: `<div class="text-lg">คุณออกจากหน้าจอข้อสอบ<br><b class="text-red-600 text-xl">ครั้งที่ ${cheatCount} / ${MAX_CHEAT}</b><br><br>หากครบ 10 ครั้ง ระบบจะส่งข้อสอบและตัดสิทธิ์ทันที</div>`,
+            html: `<div class="text-lg">คุณออกจากหน้าจอข้อสอบ<br><b class="text-red-600 text-xl">ครั้งที่ ${cheatCount} / ${MAX_CHEAT}</b><br><br>หากครบ 8 ครั้ง ระบบจะส่งข้อสอบและตัดสิทธิ์ทันที</div>`,
             confirmButtonColor: "#b91c1c",
             confirmButtonText: "กลับไปทำข้อสอบ",
           });
